@@ -22,6 +22,7 @@
 		goToUrl
 	} from '$lib/helpers/utils/common';
 	import { TimeRange } from '$lib/helpers/enums';
+	import { DEFAULT_END_TIME, DEFAULT_START_TIME } from '$lib/helpers/constants';
 	import LogItem from './log-item.svelte';
 
     const firstPage = 1;
@@ -61,6 +62,8 @@
 		timeRange: TimeRange.Today,
 		startDate: '',
 		endDate: '',
+		startTime: DEFAULT_START_TIME,
+		endTime: DEFAULT_END_TIME,
 		states: []
 	};
 
@@ -85,7 +88,7 @@
 			page: $page.url.searchParams.get("page"),
 			pageSize: $page.url.searchParams.get("pageSize")
 		}, { defaultPageSize: pageSize });
-		innerTimeRange = convertTimeRange(searchOption.timeRange, searchOption.startDate, searchOption.endDate);
+		innerTimeRange = convertTimeRange(searchOption.timeRange, searchOption.startDate, searchOption.endDate, searchOption.startTime, searchOption.endTime);
 
 		filter = {
 			...filter,
@@ -94,7 +97,7 @@
 			page: pageNum,
 			size: pageSizeNum
 		};
-		
+
         Promise.all([
             initAgentOptions(),
             initLlmConfigs(),
@@ -237,7 +240,7 @@
         const models = searchOption.models;
         const template = util.trim(searchOption.template) || null;
 		const states = getSearchStates();
-		innerTimeRange = convertTimeRange(searchOption.timeRange, searchOption.startDate, searchOption.endDate);
+		innerTimeRange = convertTimeRange(searchOption.timeRange, searchOption.startDate, searchOption.endDate, searchOption.startTime, searchOption.endTime);
 
         filter = {
             ...filter,
@@ -373,11 +376,15 @@
 							bind:timeRange={searchOption.timeRange}
 							bind:startDate={searchOption.startDate}
 							bind:endDate={searchOption.endDate}
+							bind:startTime={searchOption.startTime}
+							bind:endTime={searchOption.endTime}
 							on:change={(e) => {
 								// Only update searchOption, don't trigger query immediately
 								searchOption.timeRange = e.detail.timeRange;
 								searchOption.startDate = e.detail.startDate;
 								searchOption.endDate = e.detail.endDate;
+								searchOption.startTime = e.detail.startTime;
+								searchOption.endTime = e.detail.endTime;
 							}}
 						/>
 					</Col>

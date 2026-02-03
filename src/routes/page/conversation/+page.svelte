@@ -34,6 +34,7 @@
 		goToUrl,
 		convertTimeRange
 	} from '$lib/helpers/utils/common';
+	import { DEFAULT_START_TIME, DEFAULT_END_TIME } from '$lib/helpers/constants';
 	
 
 	const duration = 3000;
@@ -94,6 +95,8 @@
 		timeRange: TimeRange.Last12Hours,
 		startDate: '',
 		endDate: '',
+		startTime: DEFAULT_START_TIME,
+		endTime: DEFAULT_END_TIME,
 		states: [],
 		tags: []
 	};
@@ -109,7 +112,7 @@
 			page: $page.url.searchParams.get("page"),
 			pageSize: $page.url.searchParams.get("pageSize")
 		}, { defaultPageSize: pageSize });
-		innerTimeRange = convertTimeRange(searchOption.timeRange || '', searchOption.startDate, searchOption.endDate);
+		innerTimeRange = convertTimeRange(searchOption.timeRange || '', searchOption.startDate, searchOption.endDate, searchOption.startTime, searchOption.endTime);
 
 		filter = {
 			...filter,
@@ -296,7 +299,7 @@
 
 	function refreshFilter() {
 		const searchStates = getSearchStates();
-		innerTimeRange = convertTimeRange(searchOption.timeRange || '', searchOption.startDate, searchOption.endDate);
+		innerTimeRange = convertTimeRange(searchOption.timeRange || '', searchOption.startDate, searchOption.endDate, searchOption.startTime, searchOption.endTime);
 
 		filter = {
 			...filter,
@@ -508,11 +511,15 @@
 							bind:timeRange={searchOption.timeRange}
 							bind:startDate={searchOption.startDate}
 							bind:endDate={searchOption.endDate}
+							bind:startTime={searchOption.startTime}
+							bind:endTime={searchOption.endTime}
 							on:change={(e) => {
 								// Only update searchOption, don't trigger query immediately
 								searchOption.timeRange = e.detail.timeRange;
 								searchOption.startDate = e.detail.startDate;
 								searchOption.endDate = e.detail.endDate;
+								searchOption.startTime = e.detail.startTime;
+								searchOption.endTime = e.detail.endTime;
 							}}
 						/>
 					</Col>

@@ -323,9 +323,11 @@ IRichContent.prototype.language;
  * @property {string?} [status]
  * @property {UserStateDetailModel[]} states
  * @property {string[]} tags
- * @property {string?} [timeRange]
+ * @property {string} [timeRange]
  * @property {string} [startDate] - When timeRange is "Custom date", start date in YYYY-MM-DD format (e.g. 2026-01-25)
  * @property {string} [endDate] - When timeRange is "Custom date", end date in YYYY-MM-DD format (e.g. 2026-01-30). Defaults to startDate if not provided
+ * @property {string} [startTime] - When timeRange is "Custom date", start time in HH:mm format (e.g. 09:00). Defaults to 00:00
+ * @property {string} [endTime] - When timeRange is "Custom date", end time in HH:mm format (e.g. 18:00). Defaults to 23:59
  */
 
 /**

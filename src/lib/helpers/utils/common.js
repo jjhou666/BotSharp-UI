@@ -1,6 +1,6 @@
 import { goto } from '$app/navigation';
 import moment from 'moment';
-import { TIME_RANGE_OPTIONS, CUSTOM_DATE_RANGE } from '../constants';
+import { TIME_RANGE_OPTIONS, CUSTOM_DATE_RANGE, DEFAULT_START_TIME, DEFAULT_END_TIME } from '../constants';
 import { TimeRange } from '../enums';
 
 export function range(size = 3, startAt = 0) {
@@ -194,9 +194,11 @@ export function getCleanUrl(url) {
  * @param {string} timeRange
  * @param {string} [startDate] - When timeRange is "Custom date", start date in YYYY-MM-DD format (e.g. 2026-01-25)
  * @param {string} [endDate] - When timeRange is "Custom date", end date in YYYY-MM-DD format (e.g. 2026-01-30). If not provided, uses startDate
+ * @param {string} [startTimeHHMM] - When timeRange is "Custom date", start time in HH:mm format (e.g. 09:00). Defaults to 00:00
+ * @param {string} [endTimeHHMM] - When timeRange is "Custom date", end time in HH:mm format (e.g. 18:00). Defaults to 23:59
  * @returns {{ startTime: string | null, endTime: string | null }}
  */
-export function convertTimeRange(timeRange, startDate, endDate) {
+export function convertTimeRange(timeRange, startDate, endDate, startTimeHHMM, endTimeHHMM) {
     let ret = { startTime: null, endTime: null };
 
     if (!timeRange) {
@@ -245,12 +247,17 @@ export function convertTimeRange(timeRange, startDate, endDate) {
         case CUSTOM_DATE_RANGE:
             if (startDate && moment(startDate).isValid()) {
                 const endDateToUse = endDate && moment(endDate).isValid() ? endDate : startDate;
+                const startHHMM = startTimeHHMM || DEFAULT_START_TIME;
+                const endHHMM = endTimeHHMM || DEFAULT_END_TIME;
+                const [startHour, startMin] = startHHMM.split(':').map(Number);
+                const [endHour, endMin] = endHHMM.split(':').map(Number);
+
                 ret = {
                     ...ret,
                     // @ts-ignore
-                    startTime: moment(startDate).startOf('day').utc().format(),
+                    startTime: moment(startDate).hour(startHour).minute(startMin).second(0).utc().format(),
                     // @ts-ignore
-                    endTime: moment(endDateToUse).endOf('day').utc().format()
+                    endTime: moment(endDateToUse).hour(endHour).minute(endMin).second(59).utc().format()
                 };
             }
             break;

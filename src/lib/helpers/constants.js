@@ -65,5 +65,9 @@ export const TIME_RANGE_OPTIONS = [
     { label: TimeRange.Last30Days, value: TimeRange.Last30Days, qty: 30, unit: 'days' },
     { label: TimeRange.Last90Days, value: TimeRange.Last90Days, qty: 90, unit: 'days' },
     { label: TimeRange.Last180Days, value: TimeRange.Last180Days, qty: 180, unit: 'days' },
-    { label: TimeRange.LastYear, value: TimeRange.LastYear, qty: 365, unit: 'days' }
+    { label: TimeRange.LastYear, value: TimeRange.LastYear, qty: 365, unit: 'days' },
+    { label: CUSTOM_DATE_RANGE, value: CUSTOM_DATE_RANGE }
 ];
+
+export const DEFAULT_START_TIME = '00:00';
+export const DEFAULT_END_TIME = '23:59';

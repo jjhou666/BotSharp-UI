@@ -1,0 +1,66 @@
+// TimeRangePicker component styles
+// Extends the multiselect-container styles for time range picker specific needs
+
+.multiselect-container {
+    .time-range-dropdown {
+        padding: 0;
+
+        .time-range-content {
+            padding: 0;
+        }
+
+        .nav-tabs {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: white;
+            border-bottom: 1px solid var(--bs-border-color-translucent);
+            margin-bottom: 0;
+
+            .nav-item {
+                .nav-link {
+                    border: none;
+                    background: transparent;
+                    cursor: pointer;
+                    transition: all 0.2s ease-in-out;
+
+                    &:hover {
+                        background-color: transparent;
+                    }
+
+                    &.active {
+                        background-color: transparent;
+                    }
+                }
+            }
+        }
+
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .alert {
+            margin-bottom: 0.5rem;
+        }
+    }
+}
+
+// Tooltip styling for time range picker
+.tooltip {
+    &.time-range-tooltip {
+        .tooltip-inner {
+            background-color: #2c3e50;
+            color: white;
+            padding: 8px 12px;
+            font-size: 12px;
+            text-align: left;
+            max-width: 300px;
+        }
+
+        .tooltip-arrow::before {
+            border-bottom-color: #2c3e50;
+        }
+    }
+}
+
